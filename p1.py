@@ -1,8 +1,18 @@
+import csv
 import logging
 from pathlib import Path
 
 import pandas as pd
-import csv
+
+
+# --------------------------------------------------
+# File settings
+# --------------------------------------------------
+
+INPUT_FILE = Path("data/raw/incubator_bt_log2.csv")
+OUTPUT_FILE = Path("data/processed/incubator_prepared.csv")
+EXPECTED_SECTIONS = 17
+
 
 # --------------------------------------------------
 # Logging configuration
@@ -35,7 +45,6 @@ def load_raw_data(file_path):
         encoding="utf-8-sig",
         newline=""
     ) as file:
-
         reader = csv.reader(file)
         header = next(reader, None)
 
@@ -43,26 +52,28 @@ def load_raw_data(file_path):
             logger.error("The CSV file is empty: %s", file_path)
             raise ValueError("The CSV file has no header")
 
-        required_columns = {"timestamp", "message"}
-        missing_columns = required_columns - set(header)
+        header = [column.strip() for column in header]
+        expected_header = ["timestamp", "message"]
 
-        if missing_columns:
+        if header != expected_header:
             logger.error(
-                "Missing required columns: %s",
-                sorted(missing_columns)
+                "Expected CSV header %s but found %s",
+                expected_header,
+                header
             )
             raise ValueError(
-                f"Missing required columns: {sorted(missing_columns)}"
+                f"Expected CSV header {expected_header}, found {header}"
             )
 
-        expected_field_count = len(header)
+        expected_field_count = len(expected_header)
 
         for fields in reader:
             field_count = len(fields)
 
             timestamp = fields[0] if field_count >= 1 else ""
 
-            # Joining preserves all text after the first CSV field
+            # Preserve all text after the timestamp, even when
+            # a malformed CSV row contains additional commas.
             raw_message = (
                 ",".join(fields[1:])
                 if field_count >= 2
@@ -83,7 +94,18 @@ def load_raw_data(file_path):
                 }
             )
 
-    raw_df = pd.DataFrame(records)
+    raw_columns = [
+        "source_line_number",
+        "timestamp",
+        "message",
+        "csv_field_count",
+        "csv_structure_status"
+    ]
+
+    raw_df = pd.DataFrame.from_records(
+        records,
+        columns=raw_columns
+    )
 
     malformed_count = (
         raw_df["csv_structure_status"]
@@ -105,116 +127,115 @@ def load_raw_data(file_path):
 
     return raw_df
 
+
 # --------------------------------------------------
-# 2. Create a separate working table
+# 2. Create and validate the working table
 # --------------------------------------------------
 
 def create_working_table(raw_df):
-    clean_df = raw_df.copy()
+    working_df = raw_df.copy()
 
-    clean_df = clean_df.rename(
+    working_df = working_df.rename(
         columns={
             "timestamp": "timestamp_raw",
             "message": "raw_message"
         }
     )
 
-    clean_df.insert(
+    working_df.insert(
         0,
         "record_id",
-        range(1, len(clean_df) + 1)
+        range(1, len(working_df) + 1)
     )
 
     logger.info(
         "Created working table with %d rows",
-        len(clean_df)
+        len(working_df)
     )
 
-    return clean_df
+    return working_df
 
 
-# --------------------------------------------------
-# 3. Classify complete and problematic messages
-# --------------------------------------------------
+def classify_messages(working_df, expected_sections=EXPECTED_SECTIONS):
+    working_df = working_df.copy()
 
-def classify_messages(clean_df, expected_sections=17):
-    clean_df = clean_df.copy()
+    message_text = working_df["raw_message"].str.strip()
 
-    message_text = clean_df["raw_message"].str.strip()
+    working_df["message_is_empty"] = message_text.eq("")
 
-    clean_df["message_is_empty"] = message_text.eq("")
-
-    clean_df["message_section_count"] = (
+    working_df["message_section_count"] = (
         message_text.str.count(r"\|") + 1
     )
 
-    clean_df.loc[
-        clean_df["message_is_empty"],
+    working_df.loc[
+        working_df["message_is_empty"],
         "message_section_count"
     ] = 0
 
-    # Start by considering every message complete
-    clean_df["message_status"] = "complete"
+    # Begin with the expected case, then overwrite rows
+    # that match one of the rejection conditions.
+    working_df["message_status"] = "complete"
 
-    # Change the status only for rows matching each condition
-    clean_df.loc[
-        clean_df["message_is_empty"],
+    working_df.loc[
+        working_df["message_is_empty"],
         "message_status"
     ] = "empty"
 
     incomplete_condition = (
-        ~clean_df["message_is_empty"]
+        ~working_df["message_is_empty"]
         & (
-            clean_df["message_section_count"]
+            working_df["message_section_count"]
             < expected_sections
         )
     )
 
-    clean_df.loc[
+    working_df.loc[
         incomplete_condition,
         "message_status"
     ] = "incomplete"
 
     extra_sections_condition = (
-        clean_df["message_section_count"]
+        working_df["message_section_count"]
         > expected_sections
     )
 
-    clean_df.loc[
+    working_df.loc[
         extra_sections_condition,
         "message_status"
     ] = "extra_sections"
 
     malformed_csv_condition = (
-        clean_df["csv_structure_status"] != "valid"
+        working_df["csv_structure_status"] != "valid"
     )
 
-    clean_df.loc[
+    # Run this condition last so malformed CSV rows keep
+    # the most useful diagnostic status.
+    working_df.loc[
         malformed_csv_condition,
         "message_status"
     ] = "malformed_csv_row"
 
-    return clean_df
+    return working_df
 
 
-# --------------------------------------------------
-# 4. Verify that the original rows were preserved
-# --------------------------------------------------
-
-def verify_raw_data_preservation(raw_df, clean_df):
-    if len(raw_df) != len(clean_df):
+def verify_raw_data_preservation(raw_df, working_df):
+    if len(raw_df) != len(working_df):
         logger.error(
             "Row preservation failed: raw=%d, working=%d",
             len(raw_df),
-            len(clean_df)
+            len(working_df)
         )
         raise ValueError("The number of rows changed")
 
-    if not clean_df["timestamp_raw"].equals(raw_df["timestamp"]):
+    if not working_df["timestamp_raw"].equals(
+        raw_df["timestamp"]
+    ):
         logger.error("Raw timestamp values were changed")
         raise ValueError("Raw timestamp preservation failed")
 
-    if not clean_df["raw_message"].equals(raw_df["message"]):
+    if not working_df["raw_message"].equals(
+        raw_df["message"]
+    ):
         logger.error("Raw message values were changed")
         raise ValueError("Raw message preservation failed")
 
@@ -223,10 +244,6 @@ def verify_raw_data_preservation(raw_df, clean_df):
         len(raw_df)
     )
 
-
-# --------------------------------------------------
-# 5. Summarize message validation
-# --------------------------------------------------
 
 def summarize_message_validation(working_df):
     message_summary = (
@@ -243,6 +260,7 @@ def summarize_message_validation(working_df):
     ).round(4)
 
     return message_summary
+
 
 def separate_complete_and_rejected(working_df):
     complete_condition = (
@@ -272,38 +290,10 @@ def separate_complete_and_rejected(working_df):
 
     return clean_df, rejected_rows
 
+
 # --------------------------------------------------
-# 6. Run the current preparation pipeline
+# 3. Convert timestamps and extract message values
 # --------------------------------------------------
-
-def run_validation_pipeline(file_path, expected_sections=17):
-    raw_df = load_raw_data(file_path)
-
-    working_df = create_working_table(raw_df)
-
-    working_df = classify_messages(
-        working_df,
-        expected_sections=expected_sections
-    )
-
-    # This check must happen before excluding any rows
-    verify_raw_data_preservation(raw_df, working_df)
-
-    message_summary = summarize_message_validation(
-        working_df
-    )
-
-    clean_df, rejected_rows = (
-        separate_complete_and_rejected(working_df)
-    )
-
-    return (
-        raw_df,
-        working_df,
-        clean_df,
-        message_summary,
-        rejected_rows
-    )
 
 def convert_timestamps(timestamp_text):
     timestamp_text = timestamp_text.str.strip()
@@ -335,7 +325,11 @@ def extract_labeled_value(section, label):
         expand=False
     )
 
-def prepare_data_columns(clean_df):
+
+def prepare_data_columns(
+    clean_df,
+    expected_sections=EXPECTED_SECTIONS
+):
     required_columns = {
         "record_id",
         "timestamp_raw",
@@ -353,33 +347,29 @@ def prepare_data_columns(clean_df):
             f"Missing preparation columns: {sorted(missing_columns)}"
         )
 
-    # record_id preserves acquisition order,
-    # including readings with the same timestamp
+    # record_id preserves acquisition order, including
+    # readings that have the same minute-level timestamp.
     if not clean_df["record_id"].is_monotonic_increasing:
-        logger.warning(
-            "Input rows were reordered using record_id"
-        )
+        logger.warning("Input rows were reordered using record_id")
 
     clean_df = clean_df.sort_values(
         "record_id",
         kind="stable"
     ).copy()
 
-    # The message still has 17 raw sections internally
     message_parts = clean_df["raw_message"].str.split(
         "|",
         regex=False,
         expand=True
     )
 
-    if message_parts.shape[1] != 17:
+    if message_parts.shape[1] != expected_sections:
         logger.error(
-            "Expected 17 message sections but found %d",
+            "Expected %d message sections but found %d",
+            expected_sections,
             message_parts.shape[1]
         )
-        raise ValueError(
-            "Unexpected number of message sections"
-        )
+        raise ValueError("Unexpected number of message sections")
 
     message_parts = message_parts.apply(
         lambda column: column.str.strip()
@@ -387,9 +377,7 @@ def prepare_data_columns(clean_df):
 
     prepared_df = pd.DataFrame(index=clean_df.index)
 
-    # Identification and time
     prepared_df["record_id"] = clean_df["record_id"]
-
     prepared_df["timestamp"] = convert_timestamps(
         clean_df["timestamp_raw"]
     )
@@ -404,12 +392,7 @@ def prepare_data_columns(clean_df):
             invalid_timestamp_count
         )
 
-    # --------------------------------------------------
-    # Extract the four sensor sections
-    # --------------------------------------------------
-
     number_pattern = r"[-+]?\d+(?:\.\d+)?"
-
     sensor_error_counts = {}
     unparsed_sensor_counts = {}
 
@@ -458,8 +441,7 @@ def prepare_data_columns(clean_df):
 
         recognized_sensor = (
             sensor_values["error"].eq("ERR")
-            |
-            (
+            | (
                 temperature.notna()
                 & humidity.notna()
                 & sensor_values["flag"].notna()
@@ -485,10 +467,6 @@ def prepare_data_columns(clean_df):
             unparsed_sensor_counts
         )
 
-    # --------------------------------------------------
-    # Extract numeric controller values
-    # --------------------------------------------------
-
     numeric_sections = {
         "avg_t": (4, "T", "Float64"),
         "avg_h": (5, "H", "Float64"),
@@ -508,7 +486,6 @@ def prepare_data_columns(clean_df):
         raw_label,
         data_type
     ) in numeric_sections.items():
-
         values = extract_labeled_value(
             message_parts[section_position],
             raw_label
@@ -518,10 +495,6 @@ def prepare_data_columns(clean_df):
             values,
             errors="coerce"
         ).astype(data_type)
-
-    # --------------------------------------------------
-    # Extract text controller values
-    # --------------------------------------------------
 
     prepared_df["servo_position"] = (
         extract_labeled_value(
@@ -537,30 +510,21 @@ def prepare_data_columns(clean_df):
         ).astype("string")
     )
 
-    # --------------------------------------------------
-    # Arrange the final 27 columns
-    # --------------------------------------------------
-
     final_columns = [
         "record_id",
         "timestamp",
-
         "s1_t",
         "s1_h",
         "s1_flag",
-
         "s2_t",
         "s2_h",
         "s2_flag",
-
         "s3_t",
         "s3_h",
         "s3_flag",
-
         "s4_t",
         "s4_h",
         "s4_flag",
-
         "avg_t",
         "avg_h",
         "duty_pct",
@@ -581,6 +545,15 @@ def prepare_data_columns(clean_df):
         .reset_index(drop=True)
     )
 
+    missing_counts = prepared_df.isna().sum()
+    missing_counts = missing_counts[missing_counts > 0]
+
+    if not missing_counts.empty:
+        logger.warning(
+            "Prepared columns containing missing values: %s",
+            missing_counts.to_dict()
+        )
+
     logger.info(
         "Prepared %d rows with %d columns",
         len(prepared_df),
@@ -589,36 +562,91 @@ def prepare_data_columns(clean_df):
 
     return prepared_df
 
+
 # --------------------------------------------------
-# Execute the pipeline
+# 4. Build and save the final prepared DataFrame
 # --------------------------------------------------
 
-file_path = "data/raw/incubator_bt_log2.csv"
-
-(
-    raw_df,
-    working_df,
-    clean_df,
-    message_summary,
-    rejected_rows
-) = run_validation_pipeline(
+def build_prepared_dataframe(
     file_path,
-    expected_sections=17
-)
+    expected_sections=EXPECTED_SECTIONS
+):
+    raw_df = load_raw_data(file_path)
+    working_df = create_working_table(raw_df)
 
-prepared_df = prepare_data_columns(clean_df)
+    working_df = classify_messages(
+        working_df,
+        expected_sections=expected_sections
+    )
+
+    # Verify preservation before rejected rows are removed.
+    verify_raw_data_preservation(raw_df, working_df)
+
+    message_summary = summarize_message_validation(
+        working_df
+    )
+
+    clean_df, rejected_rows = (
+        separate_complete_and_rejected(working_df)
+    )
+
+    prepared_df = prepare_data_columns(
+        clean_df,
+        expected_sections=expected_sections
+    )
+
+    return prepared_df, message_summary, rejected_rows
+
+
+def save_prepared_dataframe(prepared_df, output_path):
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    file_already_exists = output_path.is_file()
+
+    prepared_df.to_csv(
+        output_path,
+        index=False,
+        date_format="%Y-%m-%d %H:%M:%S"
+    )
+
+    action = "Replaced" if file_already_exists else "Saved"
+
+    logger.info(
+        "%s prepared data file: %s",
+        action,
+        output_path
+    )
+
+    return output_path
+
 
 # --------------------------------------------------
-# Display the results
+# 5. Run Stage 1
 # --------------------------------------------------
 
-print("\nMessage validation summary:")
-print(message_summary.to_string(index=False))
+def main():
+    prepared_df, message_summary, rejected_rows = (
+        build_prepared_dataframe(
+            INPUT_FILE,
+            expected_sections=EXPECTED_SECTIONS
+        )
+    )
 
-print("\nRejected rows:")
-print(
-    rejected_rows[
-        [
+    saved_path = save_prepared_dataframe(
+        prepared_df,
+        OUTPUT_FILE
+    )
+
+    print("\nMessage validation summary:")
+    print(message_summary.to_string(index=False))
+
+    print("\nRejected rows:")
+
+    if rejected_rows.empty:
+        print("No rejected rows found.")
+    else:
+        rejected_columns = [
             "record_id",
             "source_line_number",
             "timestamp_raw",
@@ -627,13 +655,18 @@ print(
             "message_status",
             "raw_message"
         ]
-    ].to_string(index=False)
-)
 
-print("Prepared shape:", prepared_df.shape)
+        print(
+            rejected_rows[rejected_columns]
+            .to_string(index=False)
+        )
 
-print("\nPrepared columns:")
-print(prepared_df.columns.tolist())
+    print("\nPrepared shape:", prepared_df.shape)
+    print("Saved to:", saved_path)
 
-print("\nFirst three prepared rows:")
-print(prepared_df.head(3).to_string(index=False))
+    print("\nFirst three prepared rows:")
+    print(prepared_df.head(3).to_string(index=False))
+
+
+if __name__ == "__main__":
+    main()
