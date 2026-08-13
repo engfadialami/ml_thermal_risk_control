@@ -6,15 +6,15 @@ The project is organized into seven main stages. The current implementation comp
 
 ## Main Project Stages
 
-| Stage | Description                                                                                   | Status    |
-| ----- | --------------------------------------------------------------------------------------------- | --------- |
-| 1     | Raw data preparation and structural validation                                                | Completed |
-| 2     | Time-aware dataset construction, quality analysis, feature engineering, and target generation | Completed |
-| 3     | Version 1: current-state temperature prediction and model comparison                          | Planned   |
-| 4     | Version 2: history-aware prediction using lag features and thermal behavior                   | Planned   |
-| 5     | Version 3: thermal-risk prediction and disturbance-aware bounded control                      | Planned   |
-| 6     | Model integration, API development, versioning, and testing                                   | Planned   |
-| 7     | Final evaluation, documentation, and presentation                                             | Planned   |
+| Stage | Description                                                                                   
+| ----- | --------------------------------------------------------------------------------------------
+| 1     | Raw data preparation and structural validation                                                
+| 2     | Time-aware dataset construction, quality analysis, feature engineering, and target generation 
+| 3     | Version 1: current-state temperature prediction and model comparison                         
+| 4     | Version 2: history-aware prediction using lag features and thermal behavior                   
+| 5     | Version 3: thermal-risk prediction and disturbance-aware bounded control                      
+| 6     | Model integration, API development, versioning, and testing                                   
+| 7     | Final evaluation, documentation, and presentation                                             
 
 Stage 3 will compare regression models covered in the GSG Advanced Course, including Ridge Regression, Decision Tree, Random Forest, and XGBoost. A Dummy Regressor will be used as the minimum baseline. The models will predict the average system temperature 5, 10, and 15 minutes ahead.
 
