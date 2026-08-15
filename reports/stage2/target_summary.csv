@@ -1,0 +1,4 @@
+target,horizon_minutes,available_rows,unavailable_rows,availability_pct,median_alignment_error_seconds,max_alignment_error_seconds
+target_avg_t_5m,5,52942,119,99.7757298203954,2.5,30.0
+target_avg_t_10m,10,52815,246,99.53638265392661,0.0,22.5
+target_avg_t_15m,15,52685,376,99.29138161738376,0.0,30.0

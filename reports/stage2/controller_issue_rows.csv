@@ -1,0 +1,9 @@
+record_id,timestamp,avg_t,avg_h,duty_pct,duty_correction_pct,heater_on,humidity_fan_on,servo_position,operating_mode,sensor_spread_c,active_sensors_count,rotation_minutes_remaining,low_edge_counter,high_edge_counter,failed_checks
+4215,2026-06-25 10:25:00,37.6,55.5,35.0,10.0,1,,MAX,NRML,0.7,2,207.0,0.0,24,humidity_fan_on
+9692,2026-06-26 11:26:00,37.6,53.0,,5.0,0,0.0,MIN,NRML,0.7,2,214.0,0.0,141,duty_pct
+19215,2026-06-28 09:25:00,37.5,56.5,35.0,5.0,1,0.0,MIN,NRML,0.8,2,58.0,,0,low_edge_counter
+20036,2026-06-28 13:08:00,37.5,57.0,30.0,,0,0.0,MAX,NRML,0.8,2,136.0,0.0,0,duty_correction_pct
+31078,2026-06-30 18:15:00,28.0,117.5,100.0,15.0,1,0.0,STOPPED,HTCH,17.8,2,,0.0,0,avg_h
+41464,2026-07-02 17:24:00,37.3,,25.0,-5.0,0,0.0,STOPPED,HTCH,0.3,2,,0.0,0,avg_h
+44922,2026-07-03 09:06:00,37.3,68.0,25.0,-5.0,1,1.0,STOPPED@,HTCH,0.6,2,,0.0,0,servo_position
+48985,2026-07-04 09:20:00,37.5,67.0,35.0,10.0,1,1.0,,HTCH,0.4,2,,0.0,0,servo_position

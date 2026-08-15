@@ -1,0 +1,5 @@
+sensor,missing_readings,explicit_ERR,unexpected_missing,invalid_flags,implausible_values
+s1,155,153,2,2,3
+s2,103,102,1,1,1
+s3,1201,1199,2,2,0
+s4,3,2,1,1,0

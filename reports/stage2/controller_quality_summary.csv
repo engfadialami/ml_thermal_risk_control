@@ -1,0 +1,14 @@
+check,issue_count
+avg_t,0
+avg_h,2
+duty_pct,1
+duty_correction_pct,1
+heater_on,0
+humidity_fan_on,1
+servo_position,2
+operating_mode,0
+sensor_spread_c,0
+active_sensors_count,0
+rotation_state,0
+low_edge_counter,1
+high_edge_counter,0

@@ -1,0 +1,34 @@
+column,role,used_in_version1,reason
+s2_t,primary_current,True,active temperature or commanded heater duty
+s3_t,primary_current,True,active temperature or commanded heater duty
+duty_pct,primary_current,True,active temperature or commanded heater duty
+s1_t,supporting_current,True,additional current system state
+s4_t,supporting_current,True,additional current system state
+s1_h,supporting_current,True,additional current system state
+s2_h,supporting_current,True,additional current system state
+s3_h,supporting_current,True,additional current system state
+s4_h,supporting_current,True,additional current system state
+duty_correction_pct,supporting_current,True,additional current system state
+sensor_spread_c,supporting_current,True,additional current system state
+avg_t,supporting_current,True,additional current system state
+avg_h,supporting_current,True,additional current system state
+humidity_fan_on,supporting_current,True,additional current system state
+operating_mode,supporting_current,True,additional current system state
+s2_t_mean_last_5m,historical,True,all valid readings in the stated past window
+s3_t_mean_last_5m,historical,True,all valid readings in the stated past window
+duty_pct_mean_last_5m,historical,True,all valid readings in the stated past window
+humidity_fan_on_fraction_last_5m,historical,True,all valid readings in the stated past window
+s2_t_mean_last_10m,historical,True,all valid readings in the stated past window
+s3_t_mean_last_10m,historical,True,all valid readings in the stated past window
+duty_pct_mean_last_10m,historical,True,all valid readings in the stated past window
+humidity_fan_on_fraction_last_10m,historical,True,all valid readings in the stated past window
+s2_t_mean_last_15m,historical,True,all valid readings in the stated past window
+s3_t_mean_last_15m,historical,True,all valid readings in the stated past window
+duty_pct_mean_last_15m,historical,True,all valid readings in the stated past window
+humidity_fan_on_fraction_last_15m,historical,True,all valid readings in the stated past window
+heater_on,excluded,False,logging is too slow for short PWM pulses
+low_edge_counter,excluded,False,controller implementation detail
+high_edge_counter,excluded,False,controller implementation detail
+rotation_minutes_remaining,excluded,False,not a thermal predictor for Version 1
+active_sensors_count,excluded,False,not selected for Version 1
+servo_position,excluded,False,not selected for Version 1
