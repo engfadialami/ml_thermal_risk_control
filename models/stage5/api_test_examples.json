@@ -1,0 +1,261 @@
+{
+  "source": "data\\processed\\incubator_stage4_test_normalized.csv",
+  "note": "These are real normalized held-out test rows. They are used only for API demonstration, never for model training.",
+  "examples": [
+    {
+      "example_id": 1,
+      "description": "LOW at all horizons with the strongest downward temperature slope",
+      "record_id": 48791,
+      "sequence_id": 8,
+      "temperature_slopes": {
+        "avg_t_slope_last_5m": -0.3344861655778148,
+        "avg_t_slope_last_10m": -0.0705721591437532,
+        "avg_t_slope_last_15m": 0.009910058923679
+      },
+      "actual_targets": {
+        "temperature_risk_5m": "LOW",
+        "temperature_risk_10m": "LOW",
+        "temperature_risk_15m": "LOW"
+      },
+      "request_body": {
+        "features": {
+          "sensor_quality_issue_count": 0,
+          "s2_t": 36.6,
+          "s3_t": 36.2,
+          "duty_pct": 100.0,
+          "s1_t": 36.900000000000006,
+          "s4_t": 37.8,
+          "s1_h": 68.0,
+          "s2_h": 68.0,
+          "s3_h": 68.0,
+          "s4_h": 70.0,
+          "duty_correction_pct": 25.0,
+          "sensor_spread_c": 0.4,
+          "avg_t": 36.400000000000006,
+          "avg_h": 68.0,
+          "humidity_fan_on": 1.0,
+          "operating_mode": "HTCH",
+          "s2_t_mean_last_5m": 36.9578947368421,
+          "s3_t_mean_last_5m": 36.52631578947369,
+          "duty_pct_mean_last_5m": 78.94736842105263,
+          "humidity_fan_on_fraction_last_5m": 0.5263157894736842,
+          "s2_t_mean_last_10m": 37.08421052631579,
+          "s3_t_mean_last_10m": 36.67631578947368,
+          "duty_pct_mean_last_10m": 80.0,
+          "humidity_fan_on_fraction_last_10m": 0.2631578947368421,
+          "s2_t_mean_last_15m": 36.97142857142857,
+          "s3_t_mean_last_15m": 36.573214285714286,
+          "duty_pct_mean_last_15m": 86.42857142857143,
+          "humidity_fan_on_fraction_last_15m": 0.1785714285714285,
+          "avg_t_slope_last_5m": -0.3344861655778148,
+          "avg_t_slope_last_10m": -0.0705721591437532,
+          "avg_t_slope_last_15m": 0.009910058923679
+        }
+      }
+    },
+    {
+      "example_id": 2,
+      "description": "LOW in at least one horizon with a strong downward temperature slope",
+      "record_id": 48792,
+      "sequence_id": 8,
+      "temperature_slopes": {
+        "avg_t_slope_last_5m": -0.3160949126336378,
+        "avg_t_slope_last_10m": -0.0776636455835041,
+        "avg_t_slope_last_15m": 0.004539300982872
+      },
+      "actual_targets": {
+        "temperature_risk_5m": "LOW",
+        "temperature_risk_10m": "LOW",
+        "temperature_risk_15m": "LOW"
+      },
+      "request_body": {
+        "features": {
+          "sensor_quality_issue_count": 0,
+          "s2_t": 36.7,
+          "s3_t": 36.3,
+          "duty_pct": 100.0,
+          "s1_t": 37.0,
+          "s4_t": 37.8,
+          "s1_h": 67.0,
+          "s2_h": 68.0,
+          "s3_h": 68.0,
+          "s4_h": 70.0,
+          "duty_correction_pct": 25.0,
+          "sensor_spread_c": 0.4,
+          "avg_t": 36.5,
+          "avg_h": 68.0,
+          "humidity_fan_on": 1.0,
+          "operating_mode": "HTCH",
+          "s2_t_mean_last_5m": 36.92105263157895,
+          "s3_t_mean_last_5m": 36.48421052631579,
+          "duty_pct_mean_last_5m": 81.05263157894737,
+          "humidity_fan_on_fraction_last_5m": 0.5789473684210527,
+          "s2_t_mean_last_10m": 37.07631578947369,
+          "s3_t_mean_last_10m": 36.66842105263158,
+          "duty_pct_mean_last_10m": 80.0,
+          "humidity_fan_on_fraction_last_10m": 0.2894736842105263,
+          "s2_t_mean_last_15m": 36.975,
+          "s3_t_mean_last_15m": 36.57678571428572,
+          "duty_pct_mean_last_15m": 86.42857142857143,
+          "humidity_fan_on_fraction_last_15m": 0.1964285714285714,
+          "avg_t_slope_last_5m": -0.3160949126336378,
+          "avg_t_slope_last_10m": -0.0776636455835041,
+          "avg_t_slope_last_15m": 0.004539300982872
+        }
+      }
+    },
+    {
+      "example_id": 3,
+      "description": "HIGH at all horizons with the strongest upward temperature slope",
+      "record_id": 50628,
+      "sequence_id": 8,
+      "temperature_slopes": {
+        "avg_t_slope_last_5m": 0.0479029941489672,
+        "avg_t_slope_last_10m": 0.0494828279221997,
+        "avg_t_slope_last_15m": 0.0261730736028377
+      },
+      "actual_targets": {
+        "temperature_risk_5m": "HIGH",
+        "temperature_risk_10m": "HIGH",
+        "temperature_risk_15m": "HIGH"
+      },
+      "request_body": {
+        "features": {
+          "sensor_quality_issue_count": 0,
+          "s2_t": 37.8,
+          "s3_t": 37.400000000000006,
+          "duty_pct": 30.0,
+          "s1_t": 37.8,
+          "s4_t": 38.8,
+          "s1_h": 67.0,
+          "s2_h": 67.0,
+          "s3_h": 67.0,
+          "s4_h": 70.0,
+          "duty_correction_pct": 5.0,
+          "sensor_spread_c": 0.4,
+          "avg_t": 37.6,
+          "avg_h": 67.0,
+          "humidity_fan_on": 1.0,
+          "operating_mode": "HTCH",
+          "s2_t_mean_last_5m": 37.731578947368426,
+          "s3_t_mean_last_5m": 37.22631578947369,
+          "duty_pct_mean_last_5m": 34.473684210526315,
+          "humidity_fan_on_fraction_last_5m": 1.0,
+          "s2_t_mean_last_10m": 37.64324324324324,
+          "s3_t_mean_last_10m": 37.08108108108108,
+          "duty_pct_mean_last_10m": 37.16216216216216,
+          "humidity_fan_on_fraction_last_10m": 1.0,
+          "s2_t_mean_last_15m": 37.59464285714286,
+          "s3_t_mean_last_15m": 37.01428571428571,
+          "duty_pct_mean_last_15m": 37.5,
+          "humidity_fan_on_fraction_last_15m": 0.8928571428571429,
+          "avg_t_slope_last_5m": 0.0479029941489672,
+          "avg_t_slope_last_10m": 0.0494828279221997,
+          "avg_t_slope_last_15m": 0.0261730736028377
+        }
+      }
+    },
+    {
+      "example_id": 4,
+      "description": "HIGH in at least one horizon with a strong upward temperature slope",
+      "record_id": 50625,
+      "sequence_id": 8,
+      "temperature_slopes": {
+        "avg_t_slope_last_5m": 0.0579068970667073,
+        "avg_t_slope_last_10m": 0.0463118637795452,
+        "avg_t_slope_last_15m": 0.0209484106305354
+      },
+      "actual_targets": {
+        "temperature_risk_5m": "NORMAL",
+        "temperature_risk_10m": "HIGH",
+        "temperature_risk_15m": "HIGH"
+      },
+      "request_body": {
+        "features": {
+          "sensor_quality_issue_count": 0,
+          "s2_t": 37.8,
+          "s3_t": 37.3,
+          "duty_pct": 30.0,
+          "s1_t": 37.8,
+          "s4_t": 38.8,
+          "s1_h": 67.0,
+          "s2_h": 67.0,
+          "s3_h": 67.0,
+          "s4_h": 70.0,
+          "duty_correction_pct": 5.0,
+          "sensor_spread_c": 0.5,
+          "avg_t": 37.6,
+          "avg_h": 67.0,
+          "humidity_fan_on": 1.0,
+          "operating_mode": "HTCH",
+          "s2_t_mean_last_5m": 37.705263157894734,
+          "s3_t_mean_last_5m": 37.173684210526325,
+          "duty_pct_mean_last_5m": 36.05263157894737,
+          "humidity_fan_on_fraction_last_5m": 1.0,
+          "s2_t_mean_last_10m": 37.61891891891892,
+          "s3_t_mean_last_10m": 37.035135135135135,
+          "duty_pct_mean_last_10m": 37.972972972972975,
+          "humidity_fan_on_fraction_last_10m": 1.0,
+          "s2_t_mean_last_15m": 37.58035714285714,
+          "s3_t_mean_last_15m": 36.99464285714285,
+          "duty_pct_mean_last_15m": 37.767857142857146,
+          "humidity_fan_on_fraction_last_15m": 0.8392857142857143,
+          "avg_t_slope_last_5m": 0.0579068970667073,
+          "avg_t_slope_last_10m": 0.0463118637795452,
+          "avg_t_slope_last_15m": 0.0209484106305354
+        }
+      }
+    },
+    {
+      "example_id": 5,
+      "description": "Largest remaining absolute temperature slope",
+      "record_id": 48790,
+      "sequence_id": 8,
+      "temperature_slopes": {
+        "avg_t_slope_last_5m": -0.3341107196044696,
+        "avg_t_slope_last_10m": -0.0617480948801104,
+        "avg_t_slope_last_15m": 0.0159320656384828
+      },
+      "actual_targets": {
+        "temperature_risk_5m": "LOW",
+        "temperature_risk_10m": "LOW",
+        "temperature_risk_15m": "LOW"
+      },
+      "request_body": {
+        "features": {
+          "sensor_quality_issue_count": 0,
+          "s2_t": 36.5,
+          "s3_t": 36.1,
+          "duty_pct": 100.0,
+          "s1_t": 36.8,
+          "s4_t": 37.8,
+          "s1_h": 67.0,
+          "s2_h": 69.0,
+          "s3_h": 69.0,
+          "s4_h": 69.0,
+          "duty_correction_pct": 25.0,
+          "sensor_spread_c": 0.4,
+          "avg_t": 36.3,
+          "avg_h": 69.0,
+          "humidity_fan_on": 1.0,
+          "operating_mode": "HTCH",
+          "s2_t_mean_last_5m": 37.0,
+          "s3_t_mean_last_5m": 36.56842105263159,
+          "duty_pct_mean_last_5m": 76.84210526315789,
+          "humidity_fan_on_fraction_last_5m": 0.4736842105263157,
+          "s2_t_mean_last_10m": 37.09473684210526,
+          "s3_t_mean_last_10m": 36.68684210526316,
+          "duty_pct_mean_last_10m": 80.0,
+          "humidity_fan_on_fraction_last_10m": 0.2368421052631578,
+          "s2_t_mean_last_15m": 36.96964285714286,
+          "s3_t_mean_last_15m": 36.57142857142858,
+          "duty_pct_mean_last_15m": 86.42857142857143,
+          "humidity_fan_on_fraction_last_15m": 0.1607142857142857,
+          "avg_t_slope_last_5m": -0.3341107196044696,
+          "avg_t_slope_last_10m": -0.0617480948801104,
+          "avg_t_slope_last_15m": 0.0159320656384828
+        }
+      }
+    }
+  ]
+}

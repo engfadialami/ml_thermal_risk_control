@@ -1,0 +1,10 @@
+model,horizon,configuration
+Logistic Regression,5 min,C=0.1
+Random Forest,5 min,"depth=6, leaf=20, trees=200"
+XGBoost,5 min,"depth=4, best_iteration=35"
+Logistic Regression,10 min,C=0.01
+Random Forest,10 min,"depth=6, leaf=20, trees=200"
+XGBoost,10 min,"depth=4, best_iteration=44"
+Logistic Regression,15 min,C=0.01
+Random Forest,15 min,"depth=6, leaf=10, trees=200"
+XGBoost,15 min,"depth=2, best_iteration=67"

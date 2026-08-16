@@ -1,0 +1,146 @@
+{
+  "model_type": "RandomForestClassifier",
+  "model_version": "1.0",
+  "training_sequences": [
+    1,
+    2,
+    3,
+    5
+  ],
+  "validation_sequences": [
+    7
+  ],
+  "test_sequences_used_for_training": [],
+  "feature_count": 31,
+  "feature_columns": [
+    "sensor_quality_issue_count",
+    "s2_t",
+    "s3_t",
+    "duty_pct",
+    "s1_t",
+    "s4_t",
+    "s1_h",
+    "s2_h",
+    "s3_h",
+    "s4_h",
+    "duty_correction_pct",
+    "sensor_spread_c",
+    "avg_t",
+    "avg_h",
+    "humidity_fan_on",
+    "operating_mode",
+    "s2_t_mean_last_5m",
+    "s3_t_mean_last_5m",
+    "duty_pct_mean_last_5m",
+    "humidity_fan_on_fraction_last_5m",
+    "s2_t_mean_last_10m",
+    "s3_t_mean_last_10m",
+    "duty_pct_mean_last_10m",
+    "humidity_fan_on_fraction_last_10m",
+    "s2_t_mean_last_15m",
+    "s3_t_mean_last_15m",
+    "duty_pct_mean_last_15m",
+    "humidity_fan_on_fraction_last_15m",
+    "avg_t_slope_last_5m",
+    "avg_t_slope_last_10m",
+    "avg_t_slope_last_15m"
+  ],
+  "numeric_features": [
+    "sensor_quality_issue_count",
+    "s2_t",
+    "s3_t",
+    "duty_pct",
+    "s1_t",
+    "s4_t",
+    "s1_h",
+    "s2_h",
+    "s3_h",
+    "s4_h",
+    "duty_correction_pct",
+    "sensor_spread_c",
+    "avg_t",
+    "avg_h",
+    "humidity_fan_on",
+    "s2_t_mean_last_5m",
+    "s3_t_mean_last_5m",
+    "duty_pct_mean_last_5m",
+    "humidity_fan_on_fraction_last_5m",
+    "s2_t_mean_last_10m",
+    "s3_t_mean_last_10m",
+    "duty_pct_mean_last_10m",
+    "humidity_fan_on_fraction_last_10m",
+    "s2_t_mean_last_15m",
+    "s3_t_mean_last_15m",
+    "duty_pct_mean_last_15m",
+    "humidity_fan_on_fraction_last_15m",
+    "avg_t_slope_last_5m",
+    "avg_t_slope_last_10m",
+    "avg_t_slope_last_15m"
+  ],
+  "categorical_features": [
+    "operating_mode"
+  ],
+  "target_columns": [
+    "temperature_risk_5m",
+    "temperature_risk_10m",
+    "temperature_risk_15m"
+  ],
+  "class_order": [
+    "LOW",
+    "NORMAL",
+    "HIGH"
+  ],
+  "model_files": {
+    "temperature_risk_5m": "random_forest_5m.joblib",
+    "temperature_risk_10m": "random_forest_10m.joblib",
+    "temperature_risk_15m": "random_forest_15m.joblib"
+  },
+  "random_forest_config": {
+    "temperature_risk_5m": {
+      "max_depth": 6,
+      "min_samples_leaf": 20
+    },
+    "temperature_risk_10m": {
+      "max_depth": 6,
+      "min_samples_leaf": 20
+    },
+    "temperature_risk_15m": {
+      "max_depth": 6,
+      "min_samples_leaf": 10
+    }
+  },
+  "example_features": {
+    "sensor_quality_issue_count": 0,
+    "s2_t": 37.5,
+    "s3_t": 37.1,
+    "duty_pct": 20.0,
+    "s1_t": 37.5,
+    "s4_t": 38.1,
+    "s1_h": 68.0,
+    "s2_h": 69.0,
+    "s3_h": 68.0,
+    "s4_h": 73.0,
+    "duty_correction_pct": -10.0,
+    "sensor_spread_c": 0.4,
+    "avg_t": 37.3,
+    "avg_h": 68.5,
+    "humidity_fan_on": 1.0,
+    "operating_mode": "HTCH",
+    "s2_t_mean_last_5m": 37.5,
+    "s3_t_mean_last_5m": 37.10526315789474,
+    "duty_pct_mean_last_5m": 23.68421052631579,
+    "humidity_fan_on_fraction_last_5m": 1.0,
+    "s2_t_mean_last_10m": 37.5,
+    "s3_t_mean_last_10m": 37.1027027027027,
+    "duty_pct_mean_last_10m": 24.324324324324323,
+    "humidity_fan_on_fraction_last_10m": 1.0,
+    "s2_t_mean_last_15m": 37.5,
+    "s3_t_mean_last_15m": 37.10178571428572,
+    "duty_pct_mean_last_15m": 24.553571428571427,
+    "humidity_fan_on_fraction_last_15m": 1.0,
+    "avg_t_slope_last_5m": 0.0036772058728887,
+    "avg_t_slope_last_10m": 0.0012809645811826,
+    "avg_t_slope_last_15m": 0.0006083212199341
+  },
+  "training_rows": 48023
+}

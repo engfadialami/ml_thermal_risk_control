@@ -1,0 +1,16 @@
+stage,metric,value,unit
+Stage 1,Raw physical rows,53075.0,rows
+Stage 1,Structurally complete rows,53061.0,rows
+Stage 1,Retention rate,99.97362223268958,%
+Stage 2,Continuous sequences,9.0,sequences
+Stage 2,Median estimable sampling interval,16.349325337331333,seconds
+Stage 3,Rows with all three risk targets,52330.0,rows
+Stage 3,15-minute NORMAL share,85.04108541945347,%
+Stage 4,Model input features,31.0,features
+Stage 4,5 min final balanced accuracy,0.650095146838046,score
+Stage 4,5 min final macro F1,0.6393846808708687,score
+Stage 4,10 min final balanced accuracy,0.6484807598146336,score
+Stage 4,10 min final macro F1,0.6385756174337808,score
+Stage 4,15 min final balanced accuracy,0.5949210499624183,score
+Stage 4,15 min final macro F1,0.5959759249676911,score
+Stage 5,Saved prediction models,3.0,models

@@ -1,0 +1,15 @@
+record_id,source_line_number,timestamp_raw,csv_field_count,message_section_count,message_status,raw_message
+4544,4545,6/25/2026 11:55,2,16,incomplete,S1: 37.8C 55.0% P | S2: 38.0C 55.0% A l S3: 37.2C 56.0% A | S4: 39.1C 53.0% P | T=37.6 | H=55.5 | Duty=30 | Corr=5 | Htr=0 | HFan=0 | Servo=MAX | Mod=NRML | Sprd=0.8 | AvgSens=2 | RotMin=117 | LEC=0 | HEC=17
+9084,9085,6/26/2026 8:40,2,16,incomplete,S1: 37.9C 54.0% P | S2: 37.9C 53.0% A | S3: 37.1C 55.0% A | S4: 39.1C 50.0% P < T=37.5 | H=54.0 | Duty=40 | Corr=10 | Htr=1 | HFan=0 | Servo=MAX | Mod=NRML | Sprd=0.8 | AvgSens=2 | RotMin=79 | LEC=0 | HEC=0
+19431,19432,6/28/2026 10:24,2,14,incomplete,S3: 37.2C 57.0% A | S4: 38.6C 57.6 | H=56.5 | Duty=25 | Corr=0 | Htr=1 | HFan=0 | Servo=MAX | Mod=NRML | Sprd=0.7 | AvgSens=2 | RotMin=299 | LEC=0 | HEC=113
+29147,29148,6/30/2026 9:29,2,16,incomplete,7.0% A | S3: 37.2C 59.0% A | S4:  P | T=37.6 | H=58.0 | Duty=30 | Corr=5 | Htr=1 | HFan=0 | Servo=MIN | Mod=NRML | Sprd=0.7 | AvgSens=2 | RotMin=299 | LEC=0 | HEC=48
+30562,30563,6/30/2026 15:54,2,4,incomplete,System started | Mode=HATCHING | Saved Corr=5 | Saved Servo=180
+35350,35351,7/1/2026 13:38,2,2,incomplete,S1: 37.4C 69.0% P | S2: 37.5C wr*
+45450,45451,7/3/2026 11:31,2,16,incomplete,S1: 33.1C 69.0% P | S2: 35.2C 65.0% A | S3: ERR | S4: ERR | T=35.2 | H=65.0 | Duty=100 | Corr=-10 | Htr=1 | HFan=1 | Servo=STOPPED | Mod=HTCH t Sprd=0.0 | AvgSens=1 | RotMin=STOP | LEC=0 | HEC=0
+45792,45793,7/3/2026 13:05,2,3,incomplete,Heater: OFF | HumFan: OFF | LED: ON (no sensors selected for average/control)
+46168,46169,7/3/2026 14:48,2,3,incomplete,Heater: OFF | HumFan: OFF | LED: ON (no sensors selected for average/control)
+46387,46388,7/3/2026 15:48,2,3,incomplete,Heater: OFF | HumFan: OFF | LED: ON (no sensors selected for average/control)
+46516,46517,7/3/2026 16:24,2,3,incomplete,Heater: OFF | HumFan: OFF | LED: ON (no sensors selected for average/control)
+48647,48648,7/4/2026 7:48,2,4,incomplete,System started | Mode=HATCHING | Saved Corr=20 | Saved Servo=180
+50711,50712,7/4/2026 17:10,2,16,incomplete,S1: 37.5C 69.0% P | S2: 37.6C 68.0% A | S3: 37.3C 68.0% A | S4: 38.1C 73.0% P | T=37.5 | H=68.0 | Duty=20 | Corr=-5 | Htr=0 | HFan=1 x Servo=STOPPED | Mod=HTCH | Sprd=0.3 | AvgSens=2 | RotMin=STOP | LEC=0 | HEC=0
+51318,51319,7/5/2026 11:19,2,4,incomplete,System started | Mode=HATCHING | Saved Corr=-5 | Saved Servo=180

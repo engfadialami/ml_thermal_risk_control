@@ -1,0 +1,16 @@
+feature,feature_type,window_minutes,available_rows,missing_rows,availability_pct
+duty_pct_mean_last_5m,history,5,52940,121,99.77196057367935
+humidity_fan_on_fraction_last_5m,history,5,52940,121,99.77196057367935
+s2_t_mean_last_5m,history,5,52940,121,99.77196057367935
+s3_t_mean_last_5m,history,5,51818,1243,97.65741316597878
+avg_t_slope_last_5m,slope,5,52940,121,99.77196057367935
+duty_pct_mean_last_10m,history,10,52812,249,99.53072878385255
+humidity_fan_on_fraction_last_10m,history,10,52812,249,99.53072878385255
+s2_t_mean_last_10m,history,10,52812,249,99.53072878385255
+s3_t_mean_last_10m,history,10,51742,1319,97.51418179076911
+avg_t_slope_last_10m,slope,10,52812,249,99.53072878385255
+duty_pct_mean_last_15m,history,15,52683,378,99.28761237066772
+humidity_fan_on_fraction_last_15m,history,15,52683,378,99.28761237066772
+s2_t_mean_last_15m,history,15,52683,378,99.28761237066772
+s3_t_mean_last_15m,history,15,51636,1425,97.31441171481879
+avg_t_slope_last_15m,slope,15,52683,378,99.28761237066772

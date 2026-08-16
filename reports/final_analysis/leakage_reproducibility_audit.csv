@@ -1,0 +1,6 @@
+audit,passed,evidence
+Future values and targets excluded from model features,True,[]
+Train and validation sequences are disjoint,True,"train=[1, 2, 3, 5], validation=[7]"
+Test sequences are absent from final model training,True,"test=[8, 9], metadata_test_training=[]"
+All three targets exist in the Stage 3 dataset,True,"['temperature_risk_5m', 'temperature_risk_10m', 'temperature_risk_15m']"
+Saved feature count matches feature list,True,"declared=31, listed=31"

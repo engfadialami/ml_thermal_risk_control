@@ -10,6 +10,7 @@ __pycache__/
 .Python
 build/
 data/
+venv/
 others/
 develop-eggs/
 dist/

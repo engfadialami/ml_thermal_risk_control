@@ -1,0 +1,286 @@
+{
+  "project": "ML-Based Thermal Risk Prediction in a Multi-Sensor Thermal System",
+  "generated_at_utc": "2026-08-16T15:09:59.084629+00:00",
+  "environment": {
+    "python": "3.13.3",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "3.0.3",
+      "matplotlib": "3.11.0",
+      "scikit-learn": "1.9.0",
+      "xgboost": "3.4.1",
+      "joblib": "1.5.3",
+      "fastapi": "0.141.1",
+      "uvicorn": "0.52.3"
+    }
+  },
+  "data_shapes": {
+    "stage3": {
+      "rows": 53061,
+      "columns_read": 39
+    },
+    "normalized_test": {
+      "rows": 4426,
+      "columns": 41
+    }
+  },
+  "splits": {
+    "train_sequences": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "validation_sequences": [
+      7
+    ],
+    "test_sequences": [
+      8,
+      9
+    ]
+  },
+  "key_metrics": [
+    {
+      "stage": "Stage 1",
+      "metric": "Raw physical rows",
+      "value": 53075.0,
+      "unit": "rows"
+    },
+    {
+      "stage": "Stage 1",
+      "metric": "Structurally complete rows",
+      "value": 53061.0,
+      "unit": "rows"
+    },
+    {
+      "stage": "Stage 1",
+      "metric": "Retention rate",
+      "value": 99.97362223268958,
+      "unit": "%"
+    },
+    {
+      "stage": "Stage 2",
+      "metric": "Continuous sequences",
+      "value": 9.0,
+      "unit": "sequences"
+    },
+    {
+      "stage": "Stage 2",
+      "metric": "Median estimable sampling interval",
+      "value": 16.349325337331333,
+      "unit": "seconds"
+    },
+    {
+      "stage": "Stage 3",
+      "metric": "Rows with all three risk targets",
+      "value": 52330.0,
+      "unit": "rows"
+    },
+    {
+      "stage": "Stage 3",
+      "metric": "15-minute NORMAL share",
+      "value": 85.04108541945347,
+      "unit": "%"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "Model input features",
+      "value": 31.0,
+      "unit": "features"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "5 min final balanced accuracy",
+      "value": 0.650095146838046,
+      "unit": "score"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "5 min final macro F1",
+      "value": 0.6393846808708687,
+      "unit": "score"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "10 min final balanced accuracy",
+      "value": 0.6484807598146336,
+      "unit": "score"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "10 min final macro F1",
+      "value": 0.6385756174337808,
+      "unit": "score"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "15 min final balanced accuracy",
+      "value": 0.5949210499624183,
+      "unit": "score"
+    },
+    {
+      "stage": "Stage 4",
+      "metric": "15 min final macro F1",
+      "value": 0.5959759249676911,
+      "unit": "score"
+    },
+    {
+      "stage": "Stage 5",
+      "metric": "Saved prediction models",
+      "value": 3.0,
+      "unit": "models"
+    }
+  ],
+  "assumption_evidence": [
+    {
+      "assumption_or_decision": "Preserve raw rows before exclusion",
+      "evidence": "53,061 of 53,075 physical rows were structurally complete (99.9736% retention); rejected rows were reported.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Treat ERR as informative missingness",
+      "evidence": "Explicit ERR explains 1,456 of 1,462 missing sensor readings (99.59%).",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Reconstruct time within sequences",
+      "evidence": "Estimable sequence intervals range from 16.32 to 16.44 seconds; nine sequences prevent cross-gap windows.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Use 5/10/15-minute future targets",
+      "evidence": "Target availability is 5m=99.78%, 10m=99.54%, 15m=99.29%.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Use balanced metrics",
+      "evidence": "NORMAL represents 5m=92.56%, 10m=88.59%, 15m=85.04%; accuracy therefore overstates minority-class performance.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Add historical temperature slopes",
+      "evidence": "Median slope by 15-minute risk: LOW=-0.0000, NORMAL=-0.0000, HIGH=0.0039 °C/min.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Translate HATCH test temperatures by +0.2 °C",
+      "evidence": "All 14 absolute-temperature columns changed by exactly +0.2 °C; slopes, spread, and labels remained unchanged.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Select tuned Random Forest",
+      "evidence": "Validation balanced accuracy across 5/10/15 minutes was 0.653/0.628/0.627, the strongest model-wise result at each horizon.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Keep test data isolated",
+      "evidence": "All 5 leakage/reproducibility checks passed; sequences 8 and 9 are absent from training and validation.",
+      "supported": true
+    },
+    {
+      "assumption_or_decision": "Report limitations, not accuracy alone",
+      "evidence": "Final HIGH recall across 5/10/15 minutes is 0.365/0.465/0.466; minority-risk detection remains moderate.",
+      "supported": true
+    }
+  ],
+  "leakage_audit": [
+    {
+      "audit": "Future values and targets excluded from model features",
+      "passed": true,
+      "evidence": "[]"
+    },
+    {
+      "audit": "Train and validation sequences are disjoint",
+      "passed": true,
+      "evidence": "train=[1, 2, 3, 5], validation=[7]"
+    },
+    {
+      "audit": "Test sequences are absent from final model training",
+      "passed": true,
+      "evidence": "test=[8, 9], metadata_test_training=[]"
+    },
+    {
+      "audit": "All three targets exist in the Stage 3 dataset",
+      "passed": true,
+      "evidence": "['temperature_risk_5m', 'temperature_risk_10m', 'temperature_risk_15m']"
+    },
+    {
+      "audit": "Saved feature count matches feature list",
+      "passed": true,
+      "evidence": "declared=31, listed=31"
+    }
+  ],
+  "normalization_checks_passed": true,
+  "api": {
+    "api_script_present": true,
+    "model_version": "1.0",
+    "model_type": "RandomForestClassifier",
+    "feature_count": 31,
+    "saved_model_files": {
+      "temperature_risk_5m": "random_forest_5m.joblib",
+      "temperature_risk_10m": "random_forest_10m.joblib",
+      "temperature_risk_15m": "random_forest_15m.joblib"
+    },
+    "api_examples_present": true,
+    "api_example_count": 5
+  },
+  "plots": [
+    {
+      "file": "reports\\final_analysis\\plots\\01_stage1_data_retention.png",
+      "title": "Stage 1 data retention",
+      "evidence": "Supports the decision to exclude only structurally invalid records after reporting them, while retaining 53,061 of 53,075 rows."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\02_sensor_quality_evidence.png",
+      "title": "Sensor-quality evidence",
+      "evidence": "Supports preserving ERR flags and missing values rather than silently imputing them during data preparation."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\03_sequence_structure_and_sampling.png",
+      "title": "Continuous sequences and sampling",
+      "evidence": "Supports reconstructing time within sequences and forbidding history or targets from crossing gaps and backward timestamps."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\04_target_availability_and_class_balance.png",
+      "title": "Target availability and risk-class balance",
+      "evidence": "Supports multi-horizon modeling and the use of balanced metrics rather than accuracy alone."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\05_history_feature_availability.png",
+      "title": "Historical-feature availability",
+      "evidence": "Confirms that missing values at sequence starts grow with the window length, as required by leakage-safe history construction."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\06_slope_by_future_risk.png",
+      "title": "Temperature slope by future risk",
+      "evidence": "Directly tests the decision to add 5-, 10-, and 15-minute slope features. The plot shows association, not causation."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\07_current_features_by_15m_risk.png",
+      "title": "Current features by 15-minute risk",
+      "evidence": "Examines the practical decision to include duty_pct and sensor_spread_c alongside active-sensor temperatures."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\08_split_class_distribution.png",
+      "title": "Class distribution by chronological split",
+      "evidence": "Shows the distribution shift between Train, Validation, and HATCH-only Test data, explaining why accuracy alone is not sufficient."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\09_hatch_normalization_verification.png",
+      "title": "HATCH normalization verification",
+      "evidence": "Confirms that only absolute temperatures moved by +0.2 °C while slopes, spread, identifiers, and risk labels remained unchanged."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\10_validation_model_comparison.png",
+      "title": "Validation model comparison",
+      "evidence": "Supports selecting the tuned Random Forest using balanced accuracy under severe class imbalance, while retaining accuracy and macro F1."
+    },
+    {
+      "file": "reports\\final_analysis\\plots\\11_final_test_performance.png",
+      "title": "Final test performance",
+      "evidence": "Shows useful overall prediction performance while making the moderate HIGH recall and horizon-dependent degradation explicit."
+    }
+  ],
+  "warnings": []
+}

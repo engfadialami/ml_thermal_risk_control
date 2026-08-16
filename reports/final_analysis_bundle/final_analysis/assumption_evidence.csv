@@ -1,0 +1,11 @@
+assumption_or_decision,evidence,supported
+Preserve raw rows before exclusion,"53,061 of 53,075 physical rows were structurally complete (99.9736% retention); rejected rows were reported.",True
+Treat ERR as informative missingness,"Explicit ERR explains 1,456 of 1,462 missing sensor readings (99.59%).",True
+Reconstruct time within sequences,Estimable sequence intervals range from 16.32 to 16.44 seconds; nine sequences prevent cross-gap windows.,True
+Use 5/10/15-minute future targets,"Target availability is 5m=99.78%, 10m=99.54%, 15m=99.29%.",True
+Use balanced metrics,"NORMAL represents 5m=92.56%, 10m=88.59%, 15m=85.04%; accuracy therefore overstates minority-class performance.",True
+Add historical temperature slopes,"Median slope by 15-minute risk: LOW=-0.0000, NORMAL=-0.0000, HIGH=0.0039 °C/min.",True
+Translate HATCH test temperatures by +0.2 °C,"All 14 absolute-temperature columns changed by exactly +0.2 °C; slopes, spread, and labels remained unchanged.",True
+Select tuned Random Forest,"Validation balanced accuracy across 5/10/15 minutes was 0.653/0.628/0.627, the strongest model-wise result at each horizon.",True
+Keep test data isolated,All 5 leakage/reproducibility checks passed; sequences 8 and 9 are absent from training and validation.,True
+"Report limitations, not accuracy alone",Final HIGH recall across 5/10/15 minutes is 0.365/0.465/0.466; minority-risk detection remains moderate.,True
